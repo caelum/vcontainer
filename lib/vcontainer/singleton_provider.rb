@@ -10,6 +10,11 @@ module VContainer
     def build
       @cached_instance ||= @type.new
     end
+
+    def can_handle?(type)
+      @type == type
+    end
+
   end
   
 end
