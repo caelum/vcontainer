@@ -1,5 +1,3 @@
-require 'active_support/inflector'
-
 module VContainer
   
   # A simple provider will instantiate a type everytime its required
@@ -9,14 +7,9 @@ module VContainer
       @type = build_type
     end
   
-    def build(container = nil)
-      params = @type.instance_method(:initialize).parameters
-      if params[0]==[:rest]
-        @type.new
-      else
-        values = container.provide_for_params(params)
-        @type.new *values
-      end
+    def build(container = NilContainer.new)
+      values = container.provide_for_method(@type.instance_method(:initialize))
+      @type.new *values
     end
     
     def can_handle?(what)

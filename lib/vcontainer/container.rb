@@ -1,3 +1,5 @@
+require 'active_support/inflector'
+
 module VContainer
   
   # A basic container implementation
@@ -15,9 +17,14 @@ module VContainer
       provider_for(what) != nil
     end
     
-    def provide_for_params(params)
-      params.inject([]) do |values, param|
-        values << provide(param[1])
+    def provide_for_method(method)
+      params = method.parameters
+      if params[0]==[:rest]
+        []
+      else
+        params.inject([]) do |values, param|
+          values << provide(param[1])
+        end
       end
     end
     
