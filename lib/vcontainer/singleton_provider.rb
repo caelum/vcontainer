@@ -11,8 +11,8 @@ module VContainer
       @cached_instance ||= @type.new
     end
 
-    def can_handle?(type)
-      @type == type
+    def can_handle?(what)
+      @type == what.to_s.camelize.constantize
     end
 
   end

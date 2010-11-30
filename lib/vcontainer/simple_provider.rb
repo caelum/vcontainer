@@ -15,15 +15,14 @@ module VContainer
         @type.new
       else
         values = params.inject([]) do |values, param|
-          provide_me_a = param[1].to_s.camelize.constantize
-          values << container.provide(provide_me_a)
+          values << container.provide(param[1])
         end
         @type.new *values
       end
     end
     
-    def can_handle?(type)
-      @type == type
+    def can_handle?(what)
+      @type == what.to_s.camelize.constantize
     end
     
   end

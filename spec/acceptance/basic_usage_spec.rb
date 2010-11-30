@@ -15,4 +15,14 @@ describe VContainer::SimpleProvider do
     @container.use VContainer::SimpleProvider.new(SimpleEmailSender)
     @container.can_provide?(SimpleEmailSender).should be_true
   end
+  
+  it "support provider registration with symbol" do
+    @container.use VContainer::SimpleProvider.new(SimpleEmailSender)
+    @container.provide(:simpleEmailSender).class.should == SimpleEmailSender
+  end
+
+  it "lets us know whether it can handle some symbol" do
+    @container.use VContainer::SimpleProvider.new(SimpleEmailSender)
+    @container.can_provide?(:simpleEmailSender).should be_true
+  end
 end
