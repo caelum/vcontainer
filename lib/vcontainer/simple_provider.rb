@@ -8,15 +8,13 @@ module VContainer
     def initialize(build_type)
       @type = build_type
     end
-    
+  
     def build(container = nil)
       params = @type.instance_method(:initialize).parameters
       if params[0]==[:rest]
         @type.new
       else
-        values = params.inject([]) do |values, param|
-          values << container.provide(param[1])
-        end
+        values = container.provide_for_params(params)
         @type.new *values
       end
     end
