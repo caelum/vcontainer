@@ -8,7 +8,7 @@ module VContainer
     end
     
     def provide(what)
-      provider_for(what).build
+      provider_for(what).build(self)
     end
     
     def can_provide?(what)

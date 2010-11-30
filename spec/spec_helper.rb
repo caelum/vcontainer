@@ -13,3 +13,10 @@ end
 
 class SimpleEmailSender
 end
+
+class BasicComponent
+  attr_reader :sender
+  def initialize(simpleEmailSender)
+    @sender = simpleEmailSender
+  end
+end
