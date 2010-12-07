@@ -19,16 +19,21 @@ module VContainer
     
     def provide_for_method(method)
       params = method.parameters
-      if params[0]==[:rest]
-        []
+      has_parameters = params[0]!=[:rest]
+      if has_parameters
+        provide_instances_for(params)
       else
-        params.inject([]) do |values, param|
-          values << provide(param[1])
-        end
+        []
       end
     end
     
     private
+    def provide_instances_for(params)
+      params.collect do |param|
+        provide(param[1])
+      end
+    end
+    
     def provider_for(what)
       providers.find {|p| p.can_handle?(what)}
     end
