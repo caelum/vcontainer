@@ -14,6 +14,7 @@ module VContainer
         end
         use(p)
       end
+      self
     end
  
   end
