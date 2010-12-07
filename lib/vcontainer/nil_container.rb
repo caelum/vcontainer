@@ -6,6 +6,10 @@ module VContainer
       []
     end
     
+    def can_provide?(what)
+      false
+    end
+    
   end
   
 end

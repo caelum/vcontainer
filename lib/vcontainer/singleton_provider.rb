@@ -7,7 +7,7 @@ module VContainer
       @type = build_type
     end
     
-    def build(container = NilContainer.new)
+    def build(what, container = NilContainer.new)
       @cached_instance ||= instantiate(container)
     end
 

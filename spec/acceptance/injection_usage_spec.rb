@@ -1,12 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-class EmailComponent
-  attr_reader :sender
-  def initialize(emailSender)
-    @sender = emailSender
-  end
-end
-
 describe VContainer::SimpleProvider do
   
   before do

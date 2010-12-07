@@ -7,7 +7,7 @@ module VContainer
       @type = build_type
     end
   
-    def build(container = NilContainer.new)
+    def build(what, container = NilContainer.new)
       values = container.provide_for_method(@type.instance_method(:initialize))
       @type.new *values
     end

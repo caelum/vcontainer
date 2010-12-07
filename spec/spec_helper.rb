@@ -21,9 +21,20 @@ class SimpleEmailSender < EmailTemplate
   include EmailSender
 end
 
-class BasicComponent
+class Component
+end
+
+class BasicComponent < Component
   attr_reader :sender
   def initialize(simpleEmailSender)
     @sender = simpleEmailSender
+  end
+end
+
+
+class EmailComponent < Component
+  attr_reader :sender
+  def initialize(emailSender)
+    @sender = emailSender
   end
 end
