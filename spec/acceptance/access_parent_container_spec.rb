@@ -22,4 +22,13 @@ describe VContainer::ParentProvider do
     email_cc.provide(:component).sender.class.should == SimpleEmailSender
   end
 
+  it "looks up on its parents prior to providing something" do
+    @container.use VContainer::SingletonProvider.new(SimpleEmailSender)
+    
+    basic_container = VContainer::ContainerDsl.new(@container).register(BasicComponent)
+    email_cc = VContainer::ContainerDsl.new(@container).register(EmailComponent)
+    
+    basic_container.provide(:component).sender == email_cc.provide(:component).sender
+  end
+
 end
