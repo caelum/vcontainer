@@ -1,6 +1,68 @@
 = vcontainer
 
-Description goes here.
+VContainer is a simple dependency injection framework for Ruby.
+Dependency injection should be as simple as possible. Whenever you can use the most
+effective dependecy injection library: "new".
+
+	BasicComponent.new(EmailSender.new)
+
+Otherwise you can always stick to VContainer as a PicoContainer based implementation for Ruby.
+The acceptance tests show several different ways to use VContainer.
+
+Creating a container and requesting an instance:
+
+	class MyComponent
+	end
+	container = VContainer::ContainerDsl.new.register(MyComponent)
+	component = container.provide :my_component
+
+You can use included modules or type based requests:
+
+	class MyComponent < Component
+		include BasicInfo
+	end
+	container = VContainer::ContainerDsl.new.register(MyComponent)
+	component = container.provide :component
+	component = container.provide :basic_info
+	
+Dependecy injection plays nicely:
+
+	class Dao
+	end
+	class Clients
+		def initialize(dao)
+			@dao = dao
+		end
+		def all
+			@dao.find(:all)
+		end
+	end
+	container = VContainer::ContainerDsl.new.register(Dao, Clients)
+	clients = container.provide :clients
+
+You can compose containers in order to create different layers of control:
+
+	base = VContainer::ContainerDsl.new.register(dao)
+	container = VContainer::ContainerDsl.new(base).register(Clients)
+	clients = container.provide :clients
+
+There is also a singleton provider, that instantiates a type only once.
+
+	base = VContainer::ContainerDsl.new
+	base.use VContainer::SingletonProvider.new(Dao)
+	base.provide(:dao)==base.provide(:dao)
+
+As with any decent container, you can register your own "Adapter/Provider":
+
+	base = VContainer::ContainerDsl.new
+	base.use YourAdapterProviderWhatever.new
+	base.provide(:dao) # will invoke your adapter
+	
+Just check the SimpleProvider, ParentProvider and SingletonProvider examples to roll out your own provider.
+
+== Team ==
+
+VContainer was created by Guilherme Silveira and has been developed together with Eric Torti.
 
 == Contributing to vcontainer
  
@@ -14,6 +76,6 @@ Description goes here.
 
 == Copyright
 
-Copyright (c) 2010 guilherme silveira & david paniz. See LICENSE.txt for
+Copyright (c) 2010 guilherme silveira. See LICENSE.txt for
 further details.
 
