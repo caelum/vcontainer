@@ -5,4 +5,14 @@ describe VContainer::SimpleProvider do
     provider = VContainer::SimpleProvider.new(SimpleEmailSender)
     provider.build.should_not == provider.build
   end
+  
+  it "can handle a type's module" do
+    provider = VContainer::SimpleProvider.new(SimpleEmailSender)
+    provider.can_handle?(:emailSender).should be_true
+  end
+
+  it "can handle a type's superclass" do
+    provider = VContainer::SimpleProvider.new(SimpleEmailSender)
+    provider.can_handle?(:emailTemplate).should be_true
+  end
 end

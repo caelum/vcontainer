@@ -11,7 +11,14 @@ RSpec.configure do |config|
   
 end
 
-class SimpleEmailSender
+module EmailSender
+end
+
+class EmailTemplate
+end
+
+class SimpleEmailSender < EmailTemplate
+  include EmailSender
 end
 
 class BasicComponent

@@ -1,5 +1,12 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
+class EmailComponent
+  attr_reader :sender
+  def initialize(emailSender)
+    @sender = emailSender
+  end
+end
+
 describe VContainer::SimpleProvider do
   
   before do
@@ -13,4 +20,11 @@ describe VContainer::SimpleProvider do
     basic.sender.class.should == SimpleEmailSender
   end
 
+  it "support dependency injection based on a module" do
+    @container.use VContainer::SimpleProvider.new(EmailComponent)
+    @container.use VContainer::SimpleProvider.new(SimpleEmailSender)
+    basic = @container.provide(EmailComponent)
+    basic.sender.class.should == SimpleEmailSender
+  end
+  
 end

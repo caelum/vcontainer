@@ -13,7 +13,8 @@ module VContainer
     end
     
     def can_handle?(what)
-      @type == what.to_s.camelize.constantize
+      expected = what.to_s.camelize.constantize
+      @type.ancestors.include?(expected)
     end
     
   end
